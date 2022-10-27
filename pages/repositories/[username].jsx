@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { repoList } from '../../src/redux/actions/repoSlice'
 import { useSelector, useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
-import { Box, Container, Image } from '@chakra-ui/react'
+import { Box, Container, Image, Text } from '@chakra-ui/react'
+import RepoOwner from '../../src/comps/repositories/RepoOwner'
+import Repolist from '../../src/comps/repositories/Repolist'
 
 const Repositories = () => {
   const router = useRouter()
@@ -11,6 +13,7 @@ const Repositories = () => {
   const repos = useSelector(state => state?.repo)
   const ownerData = repos?.data[0]?.owner
   const [page, setPage] = useState(1)
+
 
   useEffect(() => {
     dispatch(repoList({
@@ -21,16 +24,9 @@ const Repositories = () => {
   }, [router.query.username, page])
 
   return (
-    <Container
-      display='flex'
-      justifyContent='center'
-      maxW='full'
-      height={'100vh'}
-      bg={'#5e6f82'}
-      centerContent>
-        <Box display={'flex'} >
-
-        </Box>
+    <Container overflowX={'hidden'} display='flex' flexDirection={'column'} maxW='full' minH={'100vh'} bg={'#5e6f82'} centerContent>
+        <RepoOwner ownerData={ownerData} />
+        <Repolist username={username} />
     </Container>
   )
 }
